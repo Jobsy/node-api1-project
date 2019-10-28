@@ -37,13 +37,26 @@ server.get("/users/:id", (req, res) => {
 
 server.post("/users", (req, res) => {
     const addUser = req.body;
+    // if (req.body.title !== undefined) {
+    //     const newMovie = req.body;
+    //     newMovie["id"] = movieId;
+    //     movies.push(newMovie);
+    //   }
+    //   ++movieId;
+    //   res.status(201).json(movies);
     usersDB
         .insert(addUser)
         .then((user) => {
-            res.send(user)
+            if ((req.body.name === undefined) || (req.body.bio === undefined)) {
+                res.status(400).json({ errorMessage: "Please provide name and bio for the user." })
+            }
+            res.sendStatus(201)
+            return addUser
         })
         .catch((err) => {
-            res.send(err)
+            res.status(500).json({ error: "There was an error while saving the user to the database" })
+            // res.send(err)
+            // console.log(err)
         })
 })
 
@@ -62,14 +75,14 @@ server.put("/users/:id", (req, res) => {
 
 server.delete("/users/:id", (req, res) => {
     const id = req.params.id;
-usersDB
-.remove(id)
-.then(() => {
-    res.sendStatus(200)
-})
-.catch((err) => {
-    res.sendStatus(err)
-})
+    usersDB
+        .remove(id)
+        .then(() => {
+            res.sendStatus(200)
+        })
+        .catch((err) => {
+            res.sendStatus(err)
+        })
 })
 
 const port = 6000;
