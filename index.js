@@ -38,14 +38,26 @@ server.get("/users/:id", (req, res) => {
 server.post("/users", (req, res) => {
     const addUser = req.body;
     usersDB
-    .insert(addUser)
-    .then((user) => {
-        res.send(user)
-    })
-    .catch((err) => {
-        res.send(err)
-    })
+        .insert(addUser)
+        .then((user) => {
+            res.send(user)
+        })
+        .catch((err) => {
+            res.send(err)
+        })
 })
 
+server.put("/users/:id", (req, res) => {
+    const id = req.params.id;
+    const updatedUser = req.body
+    usersDB
+        .update(id, updatedUser)
+        .then((user) => {
+            res.sendStatus(200)
+        })
+        .catch((err) => {
+            res.sendStatus(401)
+        })
+})
 const port = 6000;
 server.listen(port, () => console.log(`running on port ${port}`))
