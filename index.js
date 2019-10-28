@@ -32,7 +32,7 @@ server.get("/users/:id", (req, res) => {
             if (req.body.id === undefined) {
                 res.status(404).json({ message: "The user with the specified ID does not exist." })
             }
-            res.send(user)
+            res.status(200).json(user);
         })
         .catch(() => {
             res.status(500).json({ error: "The user information could not be retrieved." })
