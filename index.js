@@ -48,8 +48,8 @@ server.post("/users", (req, res) => {
             if ((req.body.name === undefined) || (req.body.bio === undefined)) {
                 res.status(400).json({ errorMessage: "Please provide name and bio for the user." })
             }
-            res.sendStatus(201)
-            return user
+            res.status(201).json(user);
+            // return user
         })
         .catch(() => {
             res.status(500).json({ error: "There was an error while saving the user to the database" })
