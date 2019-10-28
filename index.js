@@ -28,22 +28,19 @@ server.get("/users/:id", (req, res) => {
     usersDB
         .findById(id)
         .then((user) => {
+            if (req.body.id === undefined) {
+                res.status(404).json({ message: "The user with the specified ID does not exist." })
+            }
             res.send(user)
         })
         .catch((err) => {
-            res.send(err)
+            res.status(500).json({ error: "The user information could not be retrieved." })
+            // res.send(err)
         })
 })
 
 server.post("/users", (req, res) => {
     const addUser = req.body;
-    // if (req.body.title !== undefined) {
-    //     const newMovie = req.body;
-    //     newMovie["id"] = movieId;
-    //     movies.push(newMovie);
-    //   }
-    //   ++movieId;
-    //   res.status(201).json(movies);
     usersDB
         .insert(addUser)
         .then((user) => {
