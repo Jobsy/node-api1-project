@@ -59,5 +59,18 @@ server.put("/users/:id", (req, res) => {
             res.sendStatus(401)
         })
 })
+
+server.delete("/users/:id", (req, res) => {
+    const id = req.params.id;
+usersDB
+.remove(id)
+.then(() => {
+    res.sendStatus(200)
+})
+.catch((err) => {
+    res.sendStatus(err)
+})
+})
+
 const port = 6000;
 server.listen(port, () => console.log(`running on port ${port}`))
