@@ -18,9 +18,9 @@ server.get("/users", (req, res) => {
         .then((user) => {
             res.send(user)
         })
-        .catch((err) => {
+        .catch(() => {
             res.status(500).json({ error: "The user information could not be retrieved." })
-            res.send(err)
+            // res.send(err)
         })
 })
 
@@ -34,9 +34,9 @@ server.get("/users/:id", (req, res) => {
             }
             res.send(user)
         })
-        .catch((err) => {
+        .catch(() => {
             res.status(500).json({ error: "The user information could not be retrieved." })
-            res.send(err)
+            // res.send(err)
         })
 })
 
@@ -49,11 +49,11 @@ server.post("/users", (req, res) => {
                 res.status(400).json({ errorMessage: "Please provide name and bio for the user." })
             }
             res.sendStatus(201)
-            return addUser
+            return user
         })
-        .catch((err) => {
+        .catch(() => {
             res.status(500).json({ error: "There was an error while saving the user to the database" })
-            res.send(err)
+            // res.send(err)
             // console.log(err)
         })
 })
@@ -66,7 +66,7 @@ server.put("/users/:id", (req, res) => {
         .then((user) => {
             res.sendStatus(200)
         })
-        .catch((err) => {
+        .catch(() => {
             res.sendStatus(401)
         })
 })
@@ -74,11 +74,11 @@ server.put("/users/:id", (req, res) => {
 server.delete("/users/:id", (req, res) => {
     const id = req.params.id;
     usersDB
-        // .remove(id)
+        .remove(id)
         .then((user) => {
-            if (id) {
-                res.status(404).json({ message: "The user with the specified ID does not exist." })
-            }
+            // if (id) {
+            //     res.status(404).json({ message: "The user with the specified ID does not exist." })
+            // }
             console.log(user)
             // usersDB.remove(id)
             res.sendStatus(200)
