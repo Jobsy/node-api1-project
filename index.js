@@ -20,7 +20,7 @@ server.get("/users", (req, res) => {
         })
         .catch((err) => {
             res.status(500).json({ error: "The user information could not be retrieved." })
-            // res.send(err)
+            res.send(err)
         })
 })
 
@@ -36,7 +36,7 @@ server.get("/users/:id", (req, res) => {
         })
         .catch((err) => {
             res.status(500).json({ error: "The user information could not be retrieved." })
-            // res.send(err)
+            res.send(err)
         })
 })
 
@@ -53,7 +53,7 @@ server.post("/users", (req, res) => {
         })
         .catch((err) => {
             res.status(500).json({ error: "There was an error while saving the user to the database" })
-            // res.send(err)
+            res.send(err)
             // console.log(err)
         })
 })
@@ -74,13 +74,18 @@ server.put("/users/:id", (req, res) => {
 server.delete("/users/:id", (req, res) => {
     const id = req.params.id;
     usersDB
-        .remove(id)
-        .then(() => {
+        // .remove(id)
+        .then((user) => {
+            if (id) {
+                res.status(404).json({ message: "The user with the specified ID does not exist." })
+            }
+            console.log(user)
+            // usersDB.remove(id)
             res.sendStatus(200)
         })
-        .catch((err) => {
-            res.sendStatus(err)
-        })
+        // .catch((err) => {
+        //     res.status(500).json({ error: "The user could not be removed" })
+        // })
 })
 
 const port = 6000;
