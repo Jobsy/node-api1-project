@@ -5,7 +5,7 @@ const usersDB = require("./data/db")
 
 const server = express();
 
-
+server.use(express.json())
 
 
 server.get("/", (req, res) => {
@@ -33,6 +33,18 @@ server.get("/users/:id", (req, res) => {
         .catch((err) => {
             res.send(err)
         })
+})
+
+server.post("/users", (req, res) => {
+    const addUser = req.body;
+    usersDB
+    .insert(addUser)
+    .then((user) => {
+        res.send(user)
+    })
+    .catch((err) => {
+        res.send(err)
+    })
 })
 
 const port = 6000;
