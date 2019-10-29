@@ -2,25 +2,25 @@
 
 const express = require("express");
 
-const usersDB = require("./data/db")
+const usersDB = require("./data/db");
 
 const server = express();
 
-server.use(express.json())
+server.use(express.json());
 
 
 server.get("/", (req, res) => {
-  res.send("hello world")
+  res.send("hello world");
 })
 
 server.get("/api/users", (req, res) => {
   usersDB
     .find()
     .then((user) => {
-      res.send(user)
+      res.send(user);
     })
     .catch(() => {
-      res.status(500).json({ error: "The user information could not be retrieved." })
+      res.status(500).json({ error: "The user information could not be retrieved." });
     })
 })
 
@@ -30,12 +30,12 @@ server.get("/api/users/:id", (req, res) => {
     .findById(id)
     .then((user) => {
       if (req.body.id === undefined) {
-        res.status(404).json({ message: "The user with the specified ID does not exist." })
+        res.status(404).json({ message: "The user with the specified ID does not exist." });
       }
       res.status(200).json(user);
     })
     .catch(() => {
-      res.status(500).json({ error: "The user information could not be retrieved." })
+      res.status(500).json({ error: "The user information could not be retrieved." });
     })
 })
 
@@ -45,23 +45,23 @@ server.post("/api/users", (req, res) => {
     .insert(addUser)
     .then((user) => {
       if ((req.body.name === undefined) || (req.body.bio === undefined)) {
-        res.status(400).json({ errorMessage: "Please provide name and bio for the user." })
+        res.status(400).json({ errorMessage: "Please provide name and bio for the user." });
       }
       res.status(201).json(user);
     })
     .catch(() => {
-      res.status(500).json({ error: "There was an error while saving the user to the database" })
+      res.status(500).json({ error: "There was an error while saving the user to the database" });
     })
 })
 
 server.put("/api/users/:id", (req, res) => {
   const id = req.params.id;
-  const updatedUser = req.body
+  const updatedUser = req.body;
   usersDB
     .update(id, updatedUser)
     .then((user) => {
       if ((req.body.name === undefined) || (req.body.bio === undefined)) {
-        res.status(400).json({ errorMessage: "Please provide name and bio for the user." })
+        res.status(400).json({ errorMessage: "Please provide name and bio for the user." });
       } else {
         if (user) {
           res.status(200).json(user);
@@ -73,7 +73,7 @@ server.put("/api/users/:id", (req, res) => {
       }
     })
     .catch(() => {
-      res.sendStatus(401)
+      res.sendStatus(401);
     })
 
 })
