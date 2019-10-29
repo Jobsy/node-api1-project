@@ -1,6 +1,7 @@
 // implement your API here
 
 const express = require("express");
+
 const usersDB = require("./data/db")
 
 const server = express();
@@ -20,7 +21,6 @@ server.get("/users", (req, res) => {
         })
         .catch(() => {
             res.status(500).json({ error: "The user information could not be retrieved." })
-            // res.send(err)
         })
 })
 
@@ -36,7 +36,6 @@ server.get("/users/:id", (req, res) => {
         })
         .catch(() => {
             res.status(500).json({ error: "The user information could not be retrieved." })
-            // res.send(err)
         })
 })
 
@@ -49,13 +48,10 @@ server.post("/users", (req, res) => {
                 res.status(400).json({ errorMessage: "Please provide name and bio for the user." })
             }
             res.status(201).json(user);
-            // return user
         })
         .catch(() => {
             res.status(500).json({ error: "There was an error while saving the user to the database" })
-            // res.send(err)
-            // console.log(err)
-        })
+                    })
 })
 
 server.put("/users/:id", (req, res) => {
@@ -64,24 +60,22 @@ server.put("/users/:id", (req, res) => {
     usersDB
         .update(id, updatedUser)
         .then((user) => {
-            // res.sendStatus(200)
             if ((req.body.name === undefined) || (req.body.bio === undefined)) {
                 res.status(400).json({ errorMessage: "Please provide name and bio for the user." })
             } else {
-                   
-                        if (user) {
-                          res.status(200).json(user);
-                        } else {
-                          res
-                            .status(404).json({
-                              message: 'The user with the specified ID does not exist.',
-                            })
-                        }}
+                if (user) {
+                    res.status(200).json(user);
+                } else {
+                    res.status(404).json({
+                        message: 'The user with the specified ID does not exist.',
+                    })
+                }
+            }
         })
         .catch(() => {
             res.sendStatus(401)
         })
-    
+
 })
 
 server.delete("/users/:id", (req, res) => {
