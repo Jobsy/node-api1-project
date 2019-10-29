@@ -64,11 +64,24 @@ server.put("/users/:id", (req, res) => {
     usersDB
         .update(id, updatedUser)
         .then((user) => {
-            res.sendStatus(200)
+            // res.sendStatus(200)
+            if ((req.body.name === undefined) || (req.body.bio === undefined)) {
+                res.status(400).json({ errorMessage: "Please provide name and bio for the user." })
+            } else {
+                   
+                        if (user) {
+                          res.status(200).json(user);
+                        } else {
+                          res
+                            .status(404).json({
+                              message: 'The user with the specified ID does not exist.',
+                            })
+                        }}
         })
         .catch(() => {
             res.sendStatus(401)
         })
+    
 })
 
 server.delete("/users/:id", (req, res) => {
